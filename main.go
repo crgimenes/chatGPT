@@ -22,11 +22,24 @@ type Payload struct {
 func main() {
 
 	data := Payload{
-		Model: "gpt-3.5-turbo",
+		Model: "gpt-4",
 		Messages: []Messages{
 			{
-				Role:    "user",
-				Content: "What is the OpenAI mission?",
+				Role: "user",
+				Content: `estamos criando bitmaps com imagens em pixelart para um jogo incluindo letras, personagens, itens, etc. todos os desenhos são feitos em uma tabela em que o 0 representa o pixel preto e 1 representa pixel o branco. Todas as imagens da grade são 8x8 pixels.
+
+Como no exemplo abaixo em que desenhei a letra A:
+
+00000000
+01111110
+01000010
+01000010
+01111110
+01000010
+01000010
+00000000
+
+seguindo esse mesmo padrão desenhe a letra F`,
 			},
 		},
 	}
@@ -37,7 +50,9 @@ func main() {
 	}
 	body := bytes.NewReader(payloadBytes)
 
-	req, err := http.NewRequest("POST", "https://api.openai.com/v1/chat/completions", body)
+	req, err := http.NewRequest(
+		http.MethodPost,
+		"https://api.openai.com/v1/chat/completions", body)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
